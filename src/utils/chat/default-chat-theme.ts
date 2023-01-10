@@ -231,8 +231,7 @@ export const defaultCss = `.message {
 
 .content img {
   display: inline-block;
-  height: 1em;
-  margin-inline: 4px;
+  height: 1.2em;
   vertical-align: middle;
 }
 
