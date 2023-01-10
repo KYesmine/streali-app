@@ -165,9 +165,9 @@ export const defaultHtml = `<link rel="preconnect" href="https://fonts.googleapi
 
 <div class="message" style="--twitch-color: {{ color }}">
   <div class="name">
-    {% if displayBadges.length > 0 %}
+    {% if badges.length > 0 %}
       <div class="badges">
-        {% for badge in displayBadges %}
+        {% for badge in badges %}
           <img src="{{ badge.url }}">
         {% endfor %}
       </div>
@@ -216,22 +216,24 @@ export const defaultCss = `.message {
 }
 
 .content {
-  align-items: center;
   background-color: white;
   border-radius: 4px;
   border: 1px solid black;
   color: black;
-  display: inline-flex;
   font-family: 'Rubik', sans-serif;
   font-size: 14px;
-  gap: 8px;
   margin-bottom: 8px;
+  overflow-wrap: break-word;
   padding: 4px;
+  vertical-align: baseline;
   width: fit-content;
 }
 
 .content img {
-  height: 100%;
+  display: inline-block;
+  height: 1em;
+  margin-inline: 4px;
+  vertical-align: middle;
 }
 
 @keyframes pop {
