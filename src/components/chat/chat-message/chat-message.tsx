@@ -52,6 +52,7 @@ export const ChatMessage = memo(function ChatMessage(props: ChatMessageProps) {
     };
 
     try {
+      nunjucks.configure({ autoescape: false });
       const template = nunjucks.renderString(settings.code?.html || '', data);
       const style = scopeCSS(settings.code?.css || '', '[data-scope]');
 
