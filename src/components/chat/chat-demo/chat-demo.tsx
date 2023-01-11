@@ -16,7 +16,7 @@ export const ChatDemo = (props: ChatDemoProps) => {
       () =>
         setMessages((d) => {
           if (d.length >= 50) d.shift();
-          const newMessage: TwitchMessage = generateTwitchMessage();
+          const newMessage = generateTwitchMessage();
           return [...d, newMessage];
         }),
       1250

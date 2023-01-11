@@ -86,15 +86,6 @@ export const ChatThemeSchema = z.object({
     .optional(),
 });
 
-export const TwitchBadgeSchema = z.object({
-  admin: z.boolean(),
-  broadcaster: z.boolean(),
-  moderator: z.boolean(),
-  partner: z.boolean(),
-  vip: z.boolean(),
-  artist: z.boolean(),
-});
-
 const TwitchMessageSchema = z.object({
   id: z.optional(z.string()),
   username: z.optional(z.string()),
@@ -102,7 +93,7 @@ const TwitchMessageSchema = z.object({
   emotes: z.any(),
   date: z.date(),
   message: z.string(),
-  badges: TwitchBadgeSchema,
+  badges: z.array(z.string()),
   mod: z.optional(z.boolean()),
   subscriber: z.optional(z.boolean()),
   color: z.optional(z.string()),
@@ -121,4 +112,3 @@ export type NameChat = z.infer<typeof ChatThemeNameSchema>;
 export type GlobalChat = z.infer<typeof ChatThemeGlobalSchema>;
 export type MessageChat = z.infer<typeof ChatThemeMessageSchema>;
 export type ContainerChat = z.infer<typeof ChatThemeContainerSchema>;
-export type TwitchBadge = z.infer<typeof TwitchBadgeSchema>;

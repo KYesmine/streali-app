@@ -38,17 +38,14 @@ export const ChatMessage = memo(function ChatMessage(props: ChatMessageProps) {
   };
 
   if (settings.global.developer_mode) {
+    const badges = message.badges.map((badge) => {
+      return { url: `/badges/${settings.name.badges.style}/${badge}.png` };
+    });
+
     const data = {
       ...message,
-      displayBadges: Object.entries(message.badges)
-        .map(([key, value]) => {
-          if (value) {
-            return { url: `/badges/twitch/${key}.png` };
-          } else {
-            return null;
-          }
-        })
-        .filter((n) => n),
+      badges,
+      displayBadges: badges,
     };
 
     try {

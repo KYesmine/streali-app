@@ -15,14 +15,7 @@ const Template: ComponentStory<typeof ChatMessage> = (args) => (
       date: new Date(),
       message: 'Hello world',
       username: 'John Doe',
-      badges: {
-        admin: true,
-        broadcaster: false,
-        moderator: false,
-        partner: false,
-        vip: false,
-        artist: false,
-      },
+      badges: ['admin', 'moderator', 'partner'],
     }}
   />
 );

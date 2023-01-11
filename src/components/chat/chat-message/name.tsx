@@ -1,10 +1,10 @@
 import type { CSSProperties, ReactNode } from 'react';
-import type { NameChat, TwitchBadge } from '~/types/schemas/chat';
+import type { NameChat, TwitchMessage } from '~/types/schemas/chat';
 
 export interface NameProps {
   settings: NameChat;
   name: ReactNode;
-  badges: TwitchBadge;
+  badges: TwitchMessage['badges'];
   color?: string;
 }
 
@@ -40,39 +40,18 @@ export const Name = (props: NameProps) => {
 
   const badgeContent = (
     <div style={badgesStyle} className="flex">
-      {Object.entries(badges).map(([key, value]) => {
-        if (value) {
-          return (
-            value && (
-              <img
-                key={key}
-                style={{ width: settings?.badges.size + 'px' }}
-                src={`/badges/${settings?.badges.style}/${key}.png`}
-              />
-            )
-          );
-        }
-      })}
+      {badges.map((badge) => (
+        <img key={badge.url} style={{ width: settings.badges.size + 'px' }} src={badge.url} />
+      ))}
     </div>
   );
-
-  const haveBadges = () => {
-    return (
-      badges.admin ||
-      badges.broadcaster ||
-      badges.moderator ||
-      badges.partner ||
-      badges.vip ||
-      badges.artist
-    );
-  };
 
   return (
     <div style={nameStyle} className="shrink-0">
       <div
         className="flex items-center"
         style={{
-          gap: haveBadges() ? settings?.badges.space + 'px' : '0px',
+          gap: badges.length > 0 ? settings.badges.space + 'px' : '0px',
           justifyContent:
             settings?.text.textAlign === 'left'
               ? 'start'

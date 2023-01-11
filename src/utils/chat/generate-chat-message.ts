@@ -1,8 +1,9 @@
 import chance from 'chance';
 import { parse } from 'simple-tmi-emotes';
-import type { TwitchMessage } from '~/types/schemas/chat';
 
-export const randomMessages = [
+const kBadgeWhitelist = ['admin', 'broadcaster', 'vip', 'moderator', 'partner', 'artist'];
+
+const exampleMessages = [
   {
     message: ':):)',
     emotes: {
@@ -87,11 +88,7 @@ export const randomMessages = [
   },
 ];
 
-export const generateMessage = () => {
-  return randomMessages[Math.floor(Math.random() * randomMessages.length)];
-};
-
-export const randomUsernames = [
+const exampleUsernames = [
   'xX_pseudo_1337_Xx',
   'John',
   'willtraore',
@@ -104,16 +101,7 @@ export const randomUsernames = [
   'romainlanz',
 ];
 
-const defaultBadges = {
-  admin: false,
-  broadcaster: false,
-  moderator: false,
-  partner: false,
-  vip: false,
-  artist: false,
-};
-
-const randomColors = [
+const exampleColors = [
   '#15e64c',
   '#15b8e6',
   '#151ce6',
@@ -126,41 +114,37 @@ const randomColors = [
   '#e66f15',
 ];
 
-export const generateUsername = () => {
-  return randomUsernames[Math.floor(Math.random() * randomUsernames.length)];
-};
+function randomizeBadges() {
+  const badges = new Set();
+  const badgesCount = chance().integer({ min: 0, max: 3 });
 
-export const generateBadges = () => {
+  for (let i = 0; i < badgesCount; i++) {
+    badges.add(kBadgeWhitelist[chance().integer({ min: 0, max: kBadgeWhitelist.length - 1 })]);
+  }
+
+  return Array.from(badges);
+}
+
+export function generateTwitchMessage() {
+  const badges = randomizeBadges();
+  const color = exampleColors[Math.floor(Math.random() * exampleColors.length)];
+  const username = exampleUsernames[Math.floor(Math.random() * exampleUsernames.length)];
+  const { message, emotes } = exampleMessages[Math.floor(Math.random() * exampleMessages.length)];
+
   return {
-    admin: chance().integer({ min: 1, max: 10 }) === 1,
-    broadcaster: chance().integer({ min: 1, max: 10 }) === 1,
-    moderator: chance().integer({ min: 1, max: 5 }) === 1,
-    partner: chance().integer({ min: 1, max: 10 }) === 1,
-    vip: chance().integer({ min: 1, max: 3 }) === 1,
-    artist: chance().integer({ min: 1, max: 10 }) === 1,
-  };
-};
-
-export const generateColor = () => {
-  return randomColors[Math.floor(Math.random() * randomColors.length)];
-};
-
-export const generateTwitchMessage = (): TwitchMessage => {
-  const { message, emotes } = generateMessage();
-  return {
-    id: chance().guid(),
-    username: generateUsername(),
-    twitch: chance().guid(),
+    username,
     emotes,
+    color,
+    badges,
+    id: chance().guid(),
+    twitch: chance().guid(),
     date: new Date(),
     message: parse(message, emotes ?? {}, {
       format: 'default',
       themeMode: 'light',
-      scale: '2.0',
+      scale: '3.0',
     }),
-    badges: chance().integer({ min: 1, max: 2 }) == 1 ? generateBadges() : defaultBadges,
     mod: false,
     subscriber: false,
-    color: generateColor(),
   };
-};
+}
