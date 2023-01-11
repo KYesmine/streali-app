@@ -41,7 +41,11 @@ export const Name = (props: NameProps) => {
   const badgeContent = (
     <div style={badgesStyle} className="flex">
       {badges.map((badge) => (
-        <img key={badge.url} style={{ width: settings.badges.size + 'px' }} src={badge.url} />
+        <img
+          key={badge}
+          style={{ width: settings.badges.size + 'px' }}
+          src={`/badges/${settings.badges.style}/${badge}.png`}
+        />
       ))}
     </div>
   );
